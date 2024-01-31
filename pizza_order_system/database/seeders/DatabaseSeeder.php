@@ -26,7 +26,17 @@ class DatabaseSeeder extends Seeder
             'phone'=>'0987134193',
             'address'=>'Yangon',
             'role'=>'admin',
+            'gender'=>'female',
             'password'=>Hash::make('admin12345'),
+        ]);
+        User::create([
+            'name'=>'moeminthway',
+            'email'=>'moeminthway@gmail.com',
+            'phone'=>'0987134193',
+            'address'=>'Yangon',
+            'role'=>'admin',
+            'gender'=>'female',
+            'password'=>Hash::make('moeminthway'),
         ]);
         User::create([
             'name'=>'user',
@@ -34,6 +44,7 @@ class DatabaseSeeder extends Seeder
             'phone'=>'0976598431',
             'address'=>'Mandalay',
             'role'=>'user',
+            'gender'=>'male',
             'password'=>Hash::make('user12345'),
         ]);
     }

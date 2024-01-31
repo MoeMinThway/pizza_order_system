@@ -16,9 +16,17 @@ class UserAuthMiddleWare
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role =='admin'){
-            abort(404);
+        if(!empty(Auth::user())){
+
+            if(Auth::user()->role =='admin'){
+                abort(404);
+            }
+            if(url()->current()  == route('auth#loginPage') ||  url()->current()  == route('auth#registerPage')){
+                return back();
+            }
+            return $next($request);
         }
         return $next($request);
+
     }
 }

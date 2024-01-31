@@ -3,6 +3,9 @@
 <div class="login-form">
     <form action="{{route('login')}}" method="post" >
         @csrf
+        @error('terms')
+           <div class="invalid-feedback text-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label>Email Address</label>
             <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
