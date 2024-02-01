@@ -39,13 +39,13 @@
                   </div>
              </div>
             @endif
-          
+
              <div class="row">
                 <div class="col-3">
                     <h4 class="text-secondary">Search key : <span class="text-danger">{{request('key')}}</span> </h4>
                 </div>
                 <div class="col-3 offset-6">
-                    <form action="{{route('category#list')}}" method="GET">
+                    <form action="{{route('product#list')}}" method="GET">
                         @csrf
                         <div class="d-flex">
                             <input type="text" name="key" class="form-control" placeholder="Search" value="{{request('key')}}">
@@ -110,8 +110,12 @@
             </div>
             </div>
             @else
-                <h3 class="text-center text-secondary">There is no data here</h3>
-            @endif
+
+<div class="">
+
+    <h3 class="text-center text-secondary">There is no <span class="fw-10 fs-10 text-danger">Category</span> data here</h3>
+</div>
+  @endif
                 <!-- END DATA TABLE -->
             </div>
         </div>

@@ -11,6 +11,8 @@ class CategoryController extends Controller
 {
     //direct category list page
     public function list(){
+
+ 
         $categories = Category::when(request('key'),function($query){
             $query->where('name','like', '%'.request('key').'%');
                        })

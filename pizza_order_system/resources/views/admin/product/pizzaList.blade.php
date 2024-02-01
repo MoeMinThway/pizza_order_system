@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title','Category | List')
+@section('title','Product | List')
 @section('content')
 
  <!-- MAIN CONTENT-->
@@ -29,10 +29,10 @@
                 </div>
 
 
-            @if (session('categoryDeleteSuccess'))
+            @if (session('deleteSuccess'))
             <div class="col-4 offset-8">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <i class="fa-solid fa-check"></i>     {{session('categoryDeleteSuccess')}}
+                    <i class="fa-solid fa-check"></i>     {{session('deleteSuccess')}}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -45,7 +45,7 @@
                     <h4 class="text-secondary">Search key : <span class="text-danger">{{request('key')}}</span> </h4>
                 </div>
                 <div class="col-3 offset-6">
-                    <form action="{{route('category#list')}}" method="GET">
+                    <form action="{{route('product#list')}}" method="GET">
                         @csrf
                         <div class="d-flex">
                             <input type="text" name="key" class="form-control" placeholder="Search" value="{{request('key')}}">
@@ -65,63 +65,79 @@
                 </div>
              </div>
 
-            <div class="table-responsive table-responsive-data2">
-                <table class="table table-data2 text-center">
-                    <thead>
-                        <tr>
+          @if (count($pizzas) != 0)
+          <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2 text-center">
+                <thead>
+                    <tr>
 
-                            <th>Image</th>
-                            <th>Pizza Name</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>View Count</th>
+                        <th>Image</th>
+                        <th>Pizza Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>View Count</th>
 
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($pizzas as $p)
-                        <tr class="tr-shadow">
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pizzas as $p)
+                    <tr class="tr-shadow">
 
-                            <td class="col-2">
-                                <img src="{{asset('storage/'.$p->image)}}" class="img-thumbnail shadow-sm" alt="">
-                            </td>
-                            <td class="3" >{{$p->name}}</td>
-                            <td class="2" >{{$p->category_id}}</td>
-                            <td class="2" >{{$p->price}} $</td>
-                            <td class="2" > <i class="fa-solid fa-eye"></i> {{$p->view_count}}</td>
-                            {{-- <td>{{$product->created_at->format('j-F-Y')}}</td> --}}
-                            <td>
-                                <div class="table-data-feature">
+                        <td class="col-2">
+                            <img src="{{asset('storage/'.$p->image)}}" class="img-thumbnail shadow-sm" alt="">
+                        </td>
+                        <td class="3" >{{$p->name}}</td>
+ 
+                        <td class="2" >{{$p->category_id}}</td>
+                        <td class="2" >{{$p->price}} $</td>
+                        <td class="2" > <i class="fa-solid fa-eye"></i> {{$p->view_count}}</td>
+                        {{-- <td>{{$product->created_at->format('j-F-Y')}}</td> --}}
+                        <td>
+                            <div class="table-data-feature">
+                                <a href="{{route('product#edit',$p->id)}}" class="mr-3">
+                                    <button class="item" data-toggle="tooltip" data-placement="top" title="View">
+                                        <i class="fa-solid fa-eye"></i>
 
-                                    <a href="#" class="mr-3">
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                            <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </a>
+                                <a href="{{route('product#updatePage',$p->id)}}" class="mr-3">
+                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="fa-solid fa-pen-to-square"></i>
 
-                                        </button>
-                                    </a>
-                             <a href="#">
-                                <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                             </a>
+                                    </button>
+                                </a>
+                         <a href="{{route('product#delete',$p->id)}}">
+                            <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                         </a>
 
-                                </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </td>
+                    </tr>
 
-                        @endforeach
+                    @endforeach
 
 
 
-                    </tbody>
+                </tbody>
 
-                </table>
-                <div class="">
-                    {{$pizzas->appends(request()->query())->links()}}
-                </div>
-
+            </table>
+            <div class="">
+                {{$pizzas->links()}}
+                {{-- {{$pizzas->appends(request()->query())->links()}} --}}
             </div>
+
+        </div>
+
+        @else
+<div class="m-5">
+    <h3 class="text-center text-secondary">There is no <span class="fs-10 text-danger">Pizza</span> data here</h3>
+
+</div>
+
+          @endif
 
                 <!-- END DATA TABLE -->
             </div>

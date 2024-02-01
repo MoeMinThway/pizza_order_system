@@ -53,9 +53,13 @@ Route::middleware(['auth'])->group(function () {
             Route::get('list',[ProductController::class,"list"])->name('product#list');
             Route::get('create',[ProductController::class,"createPage"])->name('product#createPage');
             Route::post('create',[ProductController::class,"create"])->name('product#create');
+            Route::get('delete/{id}',[ProductController::class,"delete"])->name('product#delete');
+            Route::get('edit/{id}',[ProductController::class,"edit"])->name('product#edit');
+            Route::get('updatePage/{id}',[ProductController::class,"updatePage"])->name('product#updatePage');
+            Route::post('update',[ProductController::class,"update"])->name('product#update');
          });
     });
-
+19
     //user
     //home
     Route::group(['prefix'=>'user','middleware'=>'user_auth'],function () {

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('description');
             $table->string('image')->nullable(true);
             $table->integer('price');
-            $table->integer('waitng_time')->default(0);
+            $table->integer('waiting_time')->default(0);
             $table->integer('view_count')->default(0);
             $table->timestamps();
         });

@@ -25,6 +25,11 @@
             <div class="col-lg-10 offset-1">
                 <div class="card">
                     <div class="card-body">
+                        <div class="ms-5">
+                            {{-- <a href="{{route('category#list')}}"> --}}
+                                <i class="fa-solid fa-arrow-left me-2" onclick="hisory.back()" style="cursor: pointer"></i>
+                             {{-- </a> --}}
+                        </div>
                         <div class="card-title">
                             <h3 class="text-center title-2">Account Info  </h3>
                         </div>
@@ -60,9 +65,7 @@
                                 </button>
                               </a>
                             </div>
-                            <div class="col-6">
-                                <a href="{{route('category#list')}}"><button class="btn bg-warning text-white my-3"><i class="fa-solid fa-circle-chevron-left me-2"></i> back</button></a>
-                            </div>
+
                         </div>
 
                     </div>
