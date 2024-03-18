@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <div class="row px-xl-5">
             <div class="col-lg-8 table-responsive mb-5">
-                <table class="table table-light table-borderless table-hover text-center mb-0">
+                <table class="table table-light table-borderless table-hover text-center mb-0" id="dataTable">
                     <thead class="thead-dark">
                         <tr>
                             <th>Products</th>
@@ -20,27 +20,29 @@
                     <tbody class="align-middle">
                 @foreach($cartList as $c)
                         <tr>
-                                                                <input type="hidden" name=""  id="pizzaPrice" value="{{$c->pizza_price}}">
+     {{-- <input type="hidden" name=""  id="pizzaPrice" value="{{$c->pizza_price}}"> --}}
 
                             <td class="align-middle"><img src="img/product-1.jpg" alt="" style="width: 50px;">{{$c->pizza_name}} </td>
-                            <td class="align-middle">{{$c->pizza_price}} kyats </td>
+                            <td class="align-middle"   id="pizzaPrice">{{$c->pizza_price}} kyats </td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
+                                        <i class="fa text-white fa-minus"></i>
                                         </button>
                                     </div>
                                     <input type="text" class="form-control form-control-sm  border-0 text-center" id="qty" value="{{$c->qty}}">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
+                                            <i class="fa text-white fa-plus"></i>
                                         </button>
                                     </div>
                                 </div>
                             </td>
                             <td class="align-middle" id="total"> {{$c->qty * $c->pizza_price}} kyats </td>
-                            <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                            <td class="align-middle">
+                                <button class="btn btn-sm btn-danger btnRemove " id="btnRemove"><i class="fa fa-times"></i></button>
+                            </td>
                         </tr>
                 @endforeach
 
@@ -53,7 +55,7 @@
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>{{$totalPrice}} kyats </h6>
+                            <h6 id="subTotalPrice">{{$totalPrice}} kyats </h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Delivery</h6>
@@ -63,9 +65,12 @@
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5> {{$totalPrice+3000}} kyats</h5>
+                            <h5 id="finalTotalPrice"> {{$totalPrice+3000}} kyats</h5>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                        <button class="btn btn-block btn-primary text-white font-weight-bold my-3 py-3">
+                            <span class="text-white">                            Proceed To Checkout
+</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -80,28 +85,55 @@
 
 <script>
     $(document).ready(function(){
-        $(".fa-plus").click(function(){
+        $(".btn-plus").click(function(){
             // console.log("pluse");
             $parentNode = $(this).parents("tr");
-            $price = $parentNode.find('#pizzaPrice').val();
-            $qty =Number (  $parentNode.find('#qty').val()) +1;
+            // $price = $parentNode.find('#pizzaPrice').val();
+            $price = Number($parentNode.find('#pizzaPrice').text().replace('kyats',""));
 
+            $qty =Number (  $parentNode.find('#qty').val()) ;
 
             $total = $price*$qty;
-             $parentNode.find('#total').html(`${$total} kyats` );
+             $parentNode.find('#total').html($total + " kyats " );
 
+            calculationSumary();
 
         });
-        $(".fa-minus").click(function(){
+        $(".btn-minus").click(function(){
             $parentNode = $(this).parents("tr");
-            $price = $parentNode.find('#pizzaPrice').val();
-            $qty =Number (  $parentNode.find('#qty').val()) -1;
+            // $price = $parentNode.find('#pizzaPrice').val();
+                        $price = Number($parentNode.find('#pizzaPrice').text().replace('kyats',""));
+
+
+            $qty =Number (  $parentNode.find('#qty').val());
+       $('btn-minus').attr('disable');
+
 
 
             $total = $price*$qty;
              $parentNode.find('#total').html(`${$total} kyats` );
 
+             calculationSumary();
+
+
         });
+        $('.btnRemove').click(function(){
+            console.log("remove");
+             $parentNode = $(this).parents("tr");
+             $parentNode.remove();
+            calculationSumary();
+
+        })
+        function calculationSumary(){
+
+             $summaryTotal = 0;
+             $('#dataTable tr').each(function(index,row){
+                  $summaryTotal += Number ( $(row).find('#total').text().replace('kyats',""));
+             })
+            //  console.log($summaryTotal);
+            $('#subTotalPrice').html(`${$summaryTotal} kyats`);
+            $('#finalTotalPrice').html(`${$summaryTotal+3000} kyats`);
+        }
     })
 </script>
 @endsection
