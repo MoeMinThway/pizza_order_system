@@ -22,7 +22,8 @@ class UserAuthMiddleWare
                 abort(404);
             }
             if(url()->current()  == route('auth#loginPage') ||  url()->current()  == route('auth#registerPage')){
-                return back();
+                // return back();
+                return view('user#home');
             }
             return $next($request);
         }

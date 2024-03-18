@@ -100,9 +100,11 @@ class UserController extends Controller
             // dd($CategoryId);
               $pizzas = Product::where('category_id',$CategoryId)->orderBy('created_at','desc')->get();
                $category = Category::get();
+                       $cart = Cart::where('user_id',Auth::user()->id)-> get();
+
             //    dd($pizzas->toArray());
 
-             return view('user.main.home',compact('pizzas','category'));
+             return view('user.main.home',compact('pizzas','category','cart'));
          }
 
         //  pizzaDetails
@@ -116,7 +118,7 @@ class UserController extends Controller
         }
         //cartList
         public function cartList(){
-            $cartList = cart::select('carts.*','products.name as pizza_name','products.price as pizza_price')
+            $cartList = cart::select('carts.*','products.name as pizza_name','products.price as pizza_price','products.image as product_image')
                 ->leftJoin('products','products.id','carts.product_id')
                 ->where("carts.user_id",Auth::user()->id)
                 ->get();

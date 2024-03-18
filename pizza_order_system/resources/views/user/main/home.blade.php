@@ -57,7 +57,9 @@
                             <button type="button" class="btn bg-dark text-white position-relative">
     <i class="fa-solid fa-cart-shopping "></i>
        <span class="position-absolute  start-100 translate-middle badge rounded-pill bg-danger" style="top: -5px">
-          {{count($cart)}}
+      
+        {{count($cart)}}
+
   </span>
 </button>
 </a>
@@ -87,7 +89,10 @@
                 <div class="col-lg-4 col-md-6 col-sm-6  pb-1 "  style="width: 500px">
                     <div class="product-item bg-light mb-4" id="myForm" >
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" style="height: 210px;width: 1000px" src="{{asset('storage/'.$pizza->image)}}" alt="">
+                            {{-- @if($pizza->image != null ||$pizza->image !="" ) --}}
+                                                        <img class="img-fluid w-100" style="height: 210px;width: 1000px;" src="{{asset('storage/'.$pizza->image)}}" alt="Default">
+
+                            {{-- @endif --}}
                              <div class="product-action">
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href="{{route('user#pizzaDetails',$pizza->id)}}"><i class="fa-solid fa-circle-info"></i></a>
@@ -266,5 +271,6 @@
 
         });
     </script>
+
 @endsection
 {{--  --}}

@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -74,5 +76,71 @@ class DatabaseSeeder extends Seeder
             'gender'=>'male',
             'password'=>Hash::make('moe'),
         ]);
+        Category::create([
+            'name'=>'foods',
+        ]);
+        Category::create([
+            'name'=>'drinks',
+        ]);
+        Category::create([
+            'name'=>'pizza',
+        ]);
+        Category::create([
+            'name'=>'snaps',
+        ]);
+
+         Product::create([
+            'category_id'=>"1",
+            'name'=>"noodle ",
+            'description'=>"noodle  is so good" ,
+            'price'=>"3000" ,
+        ]);
+         Product::create([
+            'category_id'=>"1",
+            'name'=>" fried rice ",
+            'description'=>" fried rice  is so good" ,
+            'price'=>"4000" ,
+        ]);
+         Product::create([
+            'category_id'=>"2",
+            'name'=>"coca cola",
+            'description'=>"coca cola is so good" ,
+            'price'=>"1500" ,
+        ]);
+         Product::create([
+            'category_id'=>"2",
+            'name'=>"Orange juice",
+            'description'=>"Orange juice is so good" ,
+            'price'=>"3500" ,
+        ]);
+         Product::create([
+            'category_id'=>"2",
+            'name'=>"juice",
+            'description'=>"juice is so good" ,
+            'price'=>"2000" ,
+        ]);
+         Product::create([
+            'category_id'=>"3",
+            'name'=>"seafood pizza ",
+            'description'=>"seafood pizza is so good" ,
+            'price'=>"30000" ,
+        ]);
+         Product::create([
+            'category_id'=>"3",
+            'name'=>"chicken pizza",
+            'description'=>"chicken pizza is so good" ,
+            'price'=>"35000" ,
+        ]);
+
+            // $table->id();
+            // $table->integer('category_id');
+            // $table->string('name');
+            // $table->longText('description');
+            // $table->string('image')->nullable(true);
+            // $table->integer('price');
+            // $table->integer('waiting_time')->default(0);
+            // $table->integer('view_count')->default(0);
+            // $table->timestamps();
+
     }
 }

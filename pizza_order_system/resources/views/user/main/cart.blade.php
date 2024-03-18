@@ -10,6 +10,7 @@
                 <table class="table table-light table-borderless table-hover text-center mb-0" id="dataTable">
                     <thead class="thead-dark">
                         <tr>
+                            <th></th>
                             <th>Products</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -18,11 +19,20 @@
                         </tr>
                     </thead>
                     <tbody class="align-middle">
+                        {{-- {{$cartList}} --}}
                 @foreach($cartList as $c)
                         <tr>
      {{-- <input type="hidden" name=""  id="pizzaPrice" value="{{$c->pizza_price}}"> --}}
 
-                            <td class="align-middle"><img src="img/product-1.jpg" alt="" style="width: 50px;">{{$c->pizza_name}} </td>
+                                <td  class="align-middle">
+                                    <img src="{{asset('storage/'.$c->product_image)}}" class="shadow img-thumbnail" alt="" style="width: 100px;">
+                                </td>
+                            <td class="align-middle">
+
+                                {{$c->pizza_name}}
+                                <input type="hidden" class="productId" name="productId" id="productId" value="{{$c->product_id}}">
+                                <input type="hidden" class="userId" name="userId" id="userId" value="{{$c->user_id}}">
+                             </td>
                             <td class="align-middle"   id="pizzaPrice">{{$c->pizza_price}} kyats </td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -67,7 +77,7 @@
                             <h5>Total</h5>
                             <h5 id="finalTotalPrice"> {{$totalPrice+3000}} kyats</h5>
                         </div>
-                        <button class="btn btn-block btn-primary text-white font-weight-bold my-3 py-3">
+                        <button id="orderBtn" class="btn btn-block btn-primary text-white font-weight-bold my-3 py-3">
                             <span class="text-white">                            Proceed To Checkout
 </span>
                         </button>
@@ -84,7 +94,46 @@
 @section('scriptSource')
 
 <script>
+    $('#orderBtn').click(function(){
+        // console.log("prder");
+        // $userId = $('#userId').val();
+        // console.log($userId);
+
+        $random = Math.floor(Math.random()*10000001);
+        // console.log($random);
+          $orderList = [];
+             $('#dataTable tbody tr').each(function(index,row){
+                  $orderList.push({
+                    'user_id': $(row).find('.userId').val(),
+                    'product_id': $(row).find('.productId').val(),
+                    'qty': $(row).find('#qty').val(),
+                    'total': $(row).find('#total').text().replace("kyats","")*1,
+                    "order_code" : '0'+ $random
+                  });
+             })
+
+
+            // console.log($orderList);
+             $.ajax ({
+                type: 'get',
+                url :  'http://127.0.0.1:8000/user/ajax/order',
+                data: Object.assign({},$orderList),
+                dataType: 'json',
+                success : function(respnse){
+                        // console.log(respnse);
+                        if(respnse.status == 'true'){
+                                 window.location.href= "http://127.0.0.1:8000/user/homePage";
+
+                        }
+                }
+            })
+
+    })
+</script>
+
+<script>
     $(document).ready(function(){
+              // When + click
         $(".btn-plus").click(function(){
             // console.log("pluse");
             $parentNode = $(this).parents("tr");
@@ -99,17 +148,14 @@
             calculationSumary();
 
         });
+        // When - click
         $(".btn-minus").click(function(){
             $parentNode = $(this).parents("tr");
             // $price = $parentNode.find('#pizzaPrice').val();
                         $price = Number($parentNode.find('#pizzaPrice').text().replace('kyats',""));
 
-
-            $qty =Number (  $parentNode.find('#qty').val());
-       $('btn-minus').attr('disable');
-
-
-
+             $qty =Number (  $parentNode.find('#qty').val());
+         $('btn-minus').attr('disable');
             $total = $price*$qty;
              $parentNode.find('#total').html(`${$total} kyats` );
 
@@ -117,6 +163,7 @@
 
 
         });
+              // When remove click
         $('.btnRemove').click(function(){
             console.log("remove");
              $parentNode = $(this).parents("tr");
@@ -124,10 +171,11 @@
             calculationSumary();
 
         })
+        // common function
         function calculationSumary(){
 
              $summaryTotal = 0;
-             $('#dataTable tr').each(function(index,row){
+             $('#dataTable tbody tr').each(function(index,row){
                   $summaryTotal += Number ( $(row).find('#total').text().replace('kyats',""));
              })
             //  console.log($summaryTotal);
@@ -136,5 +184,6 @@
         }
     })
 </script>
+
 @endsection
 {{--  --}}

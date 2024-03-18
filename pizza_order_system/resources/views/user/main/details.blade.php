@@ -16,9 +16,10 @@
                 <div id="product-carousel" class="carousel slide mt-3" data-ride="carousel">
                     <div class="carousel-inner bg-light">
                         <div class="carousel-item active">
+                                                        @if($pizza->image != null ||$pizza->image !="" )
                           <img class="w-100 h-100" src="{{asset('storage/'.$pizza->image)}}"  alt="Image" >
 
-
+@endif
                         </div>
 
                     </div>
@@ -140,7 +141,8 @@
                                 <div class="col-md-6">
                                     <h4 class="mb-4">1 review for "Product Name"</h4>
                                     <div class="media mb-4">
-                                        <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+
+                                        <img src="{{asset('user/img/user.jpg')}}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                         <div class="media-body">
                                             <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
                                             <div class="text-primary mb-2">
@@ -207,7 +209,9 @@
                    @foreach($pizzaList as $pizza)
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
+                                                        @if($pizza->image != null ||$pizza->image !="" )
                             <img class="img-fluid w-100" src="{{asset('storage/'.$pizza->image  )}}" style="height: 250px" alt="">
+                            @endif
                             <div class="product-action">
                                  <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href="{{route('user#pizzaDetails',$pizza->id)}}"><i class="fa-solid fa-circle-info"></i></a>
@@ -275,4 +279,4 @@
 
 
 @endsection
-{{--  --}}
+
