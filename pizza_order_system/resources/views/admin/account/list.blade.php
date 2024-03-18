@@ -12,7 +12,7 @@
                 <div class="table-data__tool">
                     <div class="table-data__tool-left">
                         <div class="overview-wrap">
-                            <h2 class="title-1">Category List</h2>
+                            <h2 class="title-1">Admin List</h2>
 
                         </div>
                     </div>
@@ -29,10 +29,10 @@
                 </div>
 
 
-            @if (session('categoryDeleteSuccess'))
+          @if (session('deleteSuccess'))
             <div class="col-4 offset-8">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <i class="fa-solid fa-check"></i>     {{session('categoryDeleteSuccess')}}
+                    <i class="fa-solid fa-check"></i>     {{session('deleteSuccess')}}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -45,7 +45,7 @@
                     <h4 class="text-secondary">Search key : <span class="text-danger">{{request('key')}}</span> </h4>
                 </div>
                 <div class="col-3 offset-6">
-                    <form action="{{route('product#list')}}" method="GET">
+                    <form action="{{route('admin#list')}}" method="GET">
                         @csrf
                         <div class="d-flex">
                             <input type="text" name="key" class="form-control" placeholder="Search" value="{{request('key')}}">
@@ -59,64 +59,86 @@
 
              <div class="row mt-2">
                 <div class="col-1 offset-10 bg-white shadow-sm p-2   text-center">
-                    <h3><i class="fa-solid fa-database mr-2"></i>  {{$categories->total()}} </h3>
+                    <h3><i class="fa-solid fa-database mr-2"></i>  {{$admins->total()}} </h3>
                 </div>
              </div>
 
-            @if (count($categories) != 0)
+            {{-- @if (count($categories) != 0) --}}
             <div class="table-responsive table-responsive-data2">
                 <table class="table table-data2 text-center">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Category Name</th>
-                            <th>Create Date</th>
+                            <th>Image</th>
+                            <th>Admin Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Phone</th>
+                            <th>Address</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($categories as $category)
+                @foreach ($admins as $admin)
                         <tr class="tr-shadow">
-                            <td> {{$category->id}} </td>
-                            <td class="col-6">{{$category->name}}</td>
-                            <td>{{$category->created_at->format('j-F-Y')}}</td>
+                            <td class="col-2">
+                                <div >
+                                    @if ($admin->image==null)
+
+                                        @if($admin->gender =='male')
+                                        <img     src="{{asset('image/default-user.jpeg')}}" alt="John Doe"
+                                        class="img-thumbnail shadow-sm" />
+                                        @else
+                                        <img     src="{{asset('image/default-user-girl.jpeg')}}" alt="John Doe"
+                                        class="img-thumbnail shadow-sm" />
+                                        @endif
+                                    @else
+
+                                    <img src="{{asset('storage/'.$admin->image)}}" class="img-thumbnail shadow-sm" alt=" " />
+
+                                    @endif
+                                </div>
+                            </td>
+                            <td >{{$admin->name}}</td>
+                            <td >{{$admin->email}}</td>
+                            <td >{{$admin->gender}}</td>
+                            <td >{{$admin->phone}}</td>
+                            <td >{{$admin->address}}</td>
                             <td>
                                 <div class="table-data-feature">
 
-                                    <a href="{{route('category#edit',$category->id)}}" class="mr-3">
-                                        <button class="item m-1" data-toggle="tooltip" data-placement="top" title="Edit">
-                                            <i class="fa-solid fa-pen-to-square"></i>
 
-                                        </button>
-                                    </a>
-                             <a href="{{route('category#delete',$category->id)}}">
-                                <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                             </a>
+                             @if($admin->id != Auth::user()->id)
+
+                             <a href="{{route('admin#changeRole',$admin->id)}}">
+                             <button class="item mr-1" data-toggle="tooltip" data-placement="top" title="Change Admin Role">
+                                <i class="fa-solid fa-person-circle-minus"></i>
+                            </button>
+                         </a>
+                             <a href="{{route('admin#delete',$admin->id)}}">
+                             <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                         </a>
+                             @else
+
+                             @endif
 
                                 </div>
                             </td>
                         </tr>
 
                         @endforeach
-
                     </tbody>
                 </table>
             <div class="">
-                {{$categories->links()}}
+                {{$admins->links()}}
                 {{-- first way to fix paginating --}}
                 {{-- {{$categories->appends(request()->query())->links()}} --}}
             </div>
             </div>
-            @else
 
-<div class="">
 
-    <h3 class="text-center text-secondary">There is no <span class="fw-10 fs-10 text-danger">Category</span> data here</h3>
-</div>
-  @endif
-                <!-- END DATA TABLE -->
+
             </div>
         </div>
     </div>

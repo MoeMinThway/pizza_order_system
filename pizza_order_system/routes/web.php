@@ -1,11 +1,14 @@
     <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\User\AjaxController;
+use App\Http\Controllers\User\UserController;
 
 
 
@@ -48,6 +51,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('edit',[AdminController::class,'edit'])->name('admin#edit');
             Route::post('update/{id}',[AdminController::class,'update'])->name('admin#update');
 
+            //admin list
+            Route::get('list',[AdminController::class,'list'])->name('admin#list');
+            Route::get('delete/{id}',[AdminController::class,'delete'])->name('admin#delete');
+            Route::get('changeRole/{id}',[AdminController::class,'changeRole'])->name('admin#changeRole');
+            Route::post('change/role/{id}',[AdminController::class,'change'])->name('admin#change');
+
          });
          Route::group(['prefix'=> "products"],function(){
             Route::get('list',[ProductController::class,"list"])->name('product#list');
@@ -59,13 +68,45 @@ Route::middleware(['auth'])->group(function () {
             Route::post('update',[ProductController::class,"update"])->name('product#update');
          });
     });
-19
+
     //user
     //home
     Route::group(['prefix'=>'user','middleware'=>'user_auth'],function () {
-         Route::get('home',function(){
-            return view('user.home');
-         })->name('user#home');
+        //  Route::get('home',function(){
+        //     return view('user.home');
+        //  })->name('user#home');
+
+        //  home
+        Route::get('/homePage',[UserController::class,'home'])->name('user#home');
+        Route::get('/filter/{id}',[UserController::class,'filter'])->name('user#filter');
+
+        Route::prefix('pizza')->group(function(){
+            Route::get('details/{id}',[UserController::class,'pizzaDetails'])->name('user#pizzaDetails');
+        });
+
+
+        Route::prefix('cart')->group(function(){
+            Route::get('list',[UserController::class,'cartList'])->name('user#cartList');
+        });
+
+
+        //password
+        Route::prefix('password')->group(function(){
+            Route::get('change',[UserController::class,'changePasswordPage'])->name('user#changePasswordPage');
+            Route::post('change',[UserController::class,'changePassword'])->name('user#changePassword');
+        });
+
+        //account
+        Route::prefix('account')->group(function(){
+            Route::get('change',[UserController::class,'accountChangePage'])->name('user#accountChangePage');
+            Route::post('change/{id}',[UserController::class,'accountChange'])->name('user#accountChange');
+        });
+
+        Route::prefix('ajax')->group(function(){
+            Route::get('pizza/list',[AjaxController::class,'pizzaList'])->name('ajax#pizzaList');
+            Route::get('addToCart',[AjaxController::class,'addToCart'])->name('ajax#addToCart');
+
+        });
     });
 
 

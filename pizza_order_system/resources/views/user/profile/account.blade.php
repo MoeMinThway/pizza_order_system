@@ -1,34 +1,49 @@
-@extends('admin.layouts.master')
-
-@section('title','Category | List')
+@extends('user.layouts.master')
 @section('content')
+
+    <div class="row">
+        <div class="col-8 offset-2">
+
+
+
+
 
  <!-- MAIN CONTENT-->
  <div class="main-content">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
 
-            <div class="col-lg-10 offset-1">
+            <div class="">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
-                            <h3 class="text-center title-2">Account Profile  </h3>
+                            <h3 class="text-center title-2">User Profile  </h3>
                         </div>
 
-                        <form action="{{route('admin#update',Auth::user()->id)}}" enctype="multipart/form-data" method="POST">
+                        @if (session('updateSuccess'))
+
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-check"></i>     {{session('updateSuccess')}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+
+                    @endif
+                        <form action="{{route('user#accountChange',Auth::user()->id)}}" enctype="multipart/form-data" method="POST">
 @csrf
                             <div class="row">
                                 <div class="col-4 offset-1 ">
                                     @if (Auth::user()->image==null)
                                                                 @if(Auth::User()->gender=="male")
-                                                                <img src="{{asset('image/default-user.jpeg')}}" class="img-thumbnail" alt="John Doe" />
+                                                                <img src="{{asset('image/default-user.jpeg')}}"  class="img-thumbnail shadow-sm" alt="John Doe" />
 
                                                                 @else
-                                                                <img src="{{asset('image/default-user-girl.jpeg')}}" class="img-thumbnail" alt="John Doe" />
+                                                                <img src="{{asset('image/default-user-girl.jpeg')}}"  class="img-thumbnail shadow-sm" alt="John Doe" />
 
                                                                 @endif
                                                             @else
-                                                            <img src="{{asset('storage/'.Auth::user()->image)}}" alt=" " />
+                                                            <img src="{{asset('storage/'.Auth::user()->image)}}"  class="img-thumbnail shadow-sm" alt=" " />
                                                             @endif
 
 
@@ -140,5 +155,12 @@
 <!-- END MAIN CONTENT-->
 
 
+
+{{--  --}}
+
+        </div>
+    </div>
+
 @endsection
+
 {{--  --}}

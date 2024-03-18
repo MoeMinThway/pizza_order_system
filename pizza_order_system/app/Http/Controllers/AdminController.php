@@ -89,6 +89,52 @@ class AdminController extends Controller
         return redirect()->route('admin#details')->with(['updateSuccess'=>"Update Profile Success"]);
     }
 
+
+    //admin list
+    public function list(){
+//21 error male female
+
+        $admins =User::when(request('key'),function($query){
+            $query->orWhere('gender','like','%'.request('key').'%')
+                  ->orWhere('name','like','%'.request('key').'%')
+                  ->orWhere('email','like','%'.request('key').'%')
+                  ->orWhere('phone','like','%'.request('key').'%')
+                  ->orWhere('address','like','%'.request('key').'%');
+        })
+        ->where('role','admin')
+->paginate(3);
+
+        $admins->appends(request()->all());
+
+        // dd($admins->toArray());
+            return view('admin.account.list',compact('admins'));
+    }
+    //admin list delete
+    public function delete($id){
+        User::where('id',$id)->delete();
+        // dd($id);
+        return redirect()->route('admin#list')->with(['deleteSuccess'=>"Admin Account Delete Success"]);
+    }
+
+    //changeRole
+    public function changeRole($id){
+        $account = User::where('id',$id)->first();
+        // dd($account->toArray());
+        return view('admin.account.changeRole',compact('account'));
+    }
+    //change
+    public function change($id,Request $request){
+        $data = $this->requestUserData($request);
+        User::where('id',$id)->update($data);
+        return redirect()->route('admin#list');
+
+    }
+    private function requestUserData($request){
+        return [
+            'role'=>$request->role
+        ];
+    }
+
     //password Validation Check
     private function passwordValidationCheck($request){
         Validator::make($request->all(),[

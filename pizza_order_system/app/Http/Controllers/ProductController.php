@@ -10,17 +10,20 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    // 21
     //product list page
     public function list(){
         // dd(request('key'));
-        $pizzas = Product::when(request('key'),function($query){
-            $query->where('name','like','%'.request('key').'%');
+        $pizzas = Product::select("products.*",'categories.name as category_name')
+        ->when(request('key'),function($query){
+            $query->where('products.name','like','%'.request('key').'%');
         })
-                ->orderBy('created_at','desc')
+                ->leftJoin("categories",'products.category_id','categories.id')
+                ->orderBy('products.created_at','desc')
                 ->paginate(5);
 
         $pizzas->appends(request()->all());
-
+        // dd($pizzas->toArray());
         return view('admin.product.pizzaList',compact('pizzas'));
 
     }
@@ -31,7 +34,7 @@ class ProductController extends Controller
     }
     public function create(Request $request){
         // dd($request->toArray());
-        $this->validatiorCheck($request,"create")    ;
+        $this->validatiorCheck($request,"create") ;
        $data=  $this->createProductData($request);
 
 
@@ -109,7 +112,7 @@ class ProductController extends Controller
             'pizzaWaitingTime'=>'required',
 
         ];
-        $validationRule['pizzaImage']=$action == "create" ?  "required|mines:jpg,svg,jpeg,webp,png": "" ;
+        $validationRule['pizzaImage']=$action == "create" ?  "required|mimes:jpg,svg,jpeg,webp,png": "" ;
         Validator::make($request->all(),$validationRule)->validate();
     }
 }

@@ -39,6 +39,24 @@ class DatabaseSeeder extends Seeder
             'password'=>Hash::make('moeminthway'),
         ]);
         User::create([
+            'name'=>'zawzaw',
+            'email'=>'zawzaw@gmail.com',
+            'phone'=>'0987134193',
+            'address'=>'Yangon',
+            'role'=>'admin',
+            'gender'=>'female',
+            'password'=>Hash::make('zawzaw'),
+        ]);
+        User::create([
+            'name'=>'sithu',
+            'email'=>'sithu@gmail.com',
+            'phone'=>'0987134193',
+            'address'=>'Yangon',
+            'role'=>'admin',
+            'gender'=>'male',
+            'password'=>Hash::make('sithu'),
+        ]);
+        User::create([
             'name'=>'user',
             'email'=>'user@gmail.com',
             'phone'=>'0976598431',
@@ -46,6 +64,15 @@ class DatabaseSeeder extends Seeder
             'role'=>'user',
             'gender'=>'male',
             'password'=>Hash::make('user12345'),
+        ]);
+        User::create([
+            'name'=>'moemoe',
+            'email'=>'moemoe@gmail.com',
+            'phone'=>'0976598431',
+            'address'=>'Mandalay',
+            'role'=>'user',
+            'gender'=>'male',
+            'password'=>Hash::make('moe'),
         ]);
     }
 }
