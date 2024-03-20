@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -21,7 +22,8 @@ class UserController extends Controller
         $pizzas = Product::orderBy('created_at','desc')->get();
         $category = Category::get();
         $cart = Cart::where('user_id',Auth::user()->id)-> get();
-        return view('user.main.home',compact('pizzas','category','cart'));
+        $history = Order::where('user_id',Auth::user()->id)->get();
+        return view('user.main.home',compact('pizzas','category','cart','history'));
     }
     //changePasswordPage
     public function changePasswordPage(){
@@ -98,13 +100,15 @@ class UserController extends Controller
          // filter
          public function filter($CategoryId){
             // dd($CategoryId);
-              $pizzas = Product::where('category_id',$CategoryId)->orderBy('created_at','desc')->get();
-               $category = Category::get();
-                       $cart = Cart::where('user_id',Auth::user()->id)-> get();
+            $pizzas = Product::where('category_id',$CategoryId)->orderBy('created_at','desc')->get();
+            $category = Category::get();
+            $cart = Cart::where('user_id',Auth::user()->id)-> get();
+            $history = Order::where('user_id',Auth::user()->id)->get();
+
 
             //    dd($pizzas->toArray());
 
-             return view('user.main.home',compact('pizzas','category','cart'));
+             return view('user.main.home',compact('pizzas','category','cart','history'));
          }
 
         //  pizzaDetails
@@ -129,6 +133,13 @@ class UserController extends Controller
             }
             // dd($totalPrice);
             return view('user.main.cart',compact('cartList','totalPrice'));
+        }
+
+        // history
+        public function history(){
+            $order = Order::where('user_id',Auth::user()->id)->orderBy('created_at','desc')->paginate(7);
+            // dd($order->toArray());
+            return view('user.main.history',compact("order"));
         }
       //password Validation Check
       private function passwordValidationCheck($request){

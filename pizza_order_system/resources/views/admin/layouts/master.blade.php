@@ -59,6 +59,10 @@
                             <a class="actiive" href="{{route('product#list')}}">
                                 <i class="fa-solid fa-pizza-slice"></i>Product</a>
                         </li>
+                        <li>
+                            <a class="actiive" href="{{route('admin#orderList')}}">
+                                <i class="fa-solid fa-list-check"></i>Order List</a>
+                        </li>
 
                     </ul>
                 </nav>
@@ -235,6 +239,6 @@
     <script src="{{asset('admin/js/main.js')}}"></script>
 
 </body>
-
+@yield('scriptSection')
 </html>
 <!-- end document-->

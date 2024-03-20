@@ -57,8 +57,20 @@
                             <button type="button" class="btn bg-dark text-white position-relative">
     <i class="fa-solid fa-cart-shopping "></i>
        <span class="position-absolute  start-100 translate-middle badge rounded-pill bg-danger" style="top: -5px">
-      
+
         {{count($cart)}}
+
+  </span>
+</button>
+</a>
+
+<a href="{{route('user#history')}}" class="mx-3">
+
+                            <button type="button" class="btn bg-dark text-white position-relative">
+    <i class="fa-solid fa-clock-rotate-left "></i> History
+       <span class="position-absolute  start-100 translate-middle badge rounded-pill bg-danger" style="top: -5px">
+
+        {{count($history)}}
 
   </span>
 </button>

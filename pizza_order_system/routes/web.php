@@ -4,6 +4,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -67,6 +68,13 @@ Route::middleware(['auth'])->group(function () {
             Route::get('updatePage/{id}',[ProductController::class,"updatePage"])->name('product#updatePage');
             Route::post('update',[ProductController::class,"update"])->name('product#update');
          });
+         Route::group(['prefix'=> "order"],function(){
+            Route::get('list',[OrderController::class,"orderList"])->name('admin#orderList');
+            Route::get('ajax/status',[OrderController::class,"ajaxStatus"])->name('admin#ajaxStatus');
+            Route::get('ajax/change/status',[OrderController::class,"ajaxChangeStatus"])->name('admin#ajaxChangeStatus');
+
+         });
+
     });
 
     //user
@@ -79,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
         //  home
         Route::get('/homePage',[UserController::class,'home'])->name('user#home');
         Route::get('/filter/{id}',[UserController::class,'filter'])->name('user#filter');
+        Route::get('/history',[UserController::class,'history'])->name('user#history');
 
         Route::prefix('pizza')->group(function(){
             Route::get('details/{id}',[UserController::class,'pizzaDetails'])->name('user#pizzaDetails');
@@ -106,6 +115,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('pizza/list',[AjaxController::class,'pizzaList'])->name('ajax#pizzaList');
             Route::get('addToCart',[AjaxController::class,'addToCart'])->name('ajax#addToCart');
             Route::get('order',[AjaxController::class,'order'])->name('ajax#order');
+            Route::get('clear/cart',[AjaxController::class,'clearCart'])->name('ajax#clearCart');
+            Route::get('clear/product',[AjaxController::class,'clearProduct'])->name('ajax#clearProduct');
 
         });
     });

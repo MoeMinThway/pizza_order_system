@@ -30,6 +30,7 @@
                             <td class="align-middle">
 
                                 {{$c->pizza_name}}
+                                <input type="hidden" class="orderId" name="orderId" id="orderId" value="{{$c->id}}">
                                 <input type="hidden" class="productId" name="productId" id="productId" value="{{$c->product_id}}">
                                 <input type="hidden" class="userId" name="userId" id="userId" value="{{$c->user_id}}">
                              </td>
@@ -80,6 +81,9 @@
                         <button id="orderBtn" class="btn btn-block btn-primary text-white font-weight-bold my-3 py-3">
                             <span class="text-white">                            Proceed To Checkout
 </span>
+                        </button>
+                        <button id="clearBtn" class="btn btn-block btn-danger text-white font-weight-bold my-3 py-3">
+                            <span class="text-white">                        Clear Cart
                         </button>
                     </div>
                 </div>
@@ -167,7 +171,23 @@
         $('.btnRemove').click(function(){
             console.log("remove");
              $parentNode = $(this).parents("tr");
-             $parentNode.remove();
+             $productId = $parentNode.find('.productId').val();
+             $orderId = $parentNode.find('.orderId').val();
+            // alert($productId)
+
+                 $.ajax ({
+                type: 'get',
+
+                url :  'http://127.0.0.1:8000/user/ajax/clear/product',
+                data: {'product_id' : $productId,
+                         'order_id': $orderId
+                    } ,
+                dataType: 'json',
+                success : function(respnse){
+
+                }
+            })
+     $parentNode.remove();
             calculationSumary();
 
         })
@@ -182,6 +202,19 @@
             $('#subTotalPrice').html(`${$summaryTotal} kyats`);
             $('#finalTotalPrice').html(`${$summaryTotal+3000} kyats`);
         }
+        // clear cart
+        $('#clearBtn').click(function(){
+            $('#dataTable tbody tr').remove();
+            console.log("clear");
+                   calculationSumary();
+                      $.ajax ({
+                type: 'get',
+                url :  'http://127.0.0.1:8000/user/ajax/clear/cart',
+                success : function(respnse){
+
+                }
+            })
+        })
     })
 </script>
 
