@@ -75,11 +75,15 @@
                             <th>Phone</th>
                             <th>Address</th>
                             <th></th>
+
                         </tr>
                     </thead>
                     <tbody>
                 @foreach ($admins as $admin)
+
                         <tr class="tr-shadow">
+                                                                    <input type="hidden" class="userId" id="userId" value="{{$admin->id}}">
+
                             <td class="col-2">
                                 <div >
                                     @if ($admin->image==null)
@@ -98,16 +102,21 @@
                                     @endif
                                 </div>
                             </td>
-                            <td >{{$admin->name}}</td>
+                            <td >{{$admin->name}} </td>
                             <td >{{$admin->email}}</td>
                             <td >{{$admin->gender}}</td>
                             <td >{{$admin->phone}}</td>
                             <td >{{$admin->address}}</td>
                             <td>
-                                <div class="table-data-feature">
+                                <div class="table-data-feature me-5">
+
 
 
                              @if($admin->id != Auth::user()->id)
+                                   <select name="" id="" class="form-control statusChange">
+                                    <option @if($admin->role == "user" ) selected @endif value="user">User</option>
+                                <option @if($admin->role == "admin" ) selected @endif value="admin">Admin</option>
+                                </select>
 
                              <a href="{{route('admin#changeRole',$admin->id)}}">
                              <button class="item mr-1" data-toggle="tooltip" data-placement="top" title="Change Admin Role">
@@ -124,7 +133,9 @@
                              @endif
 
                                 </div>
+
                             </td>
+
                         </tr>
 
                         @endforeach
@@ -145,6 +156,44 @@
 </div>
 <!-- END MAIN CONTENT-->
 
+
+@endsection
+
+@section('scriptSection')
+
+<script>
+    $(document).ready(function(){
+
+
+        $('.statusChange').change(function (){
+            $currentStatus = $(this).val();
+            $parentNode = $(this).parents('tr');
+
+            $userId =$parentNode.find('.userId').val();
+
+
+            console.log($currentStatus);
+            console.log($userId);
+            $.ajax({
+                type: "get",
+                url: "http://127.0.0.1:8000/admin/change/role/ajax",
+                data : {
+                    "role": $currentStatus,
+                    "userId": $userId,
+
+            },
+                dataType: 'json',
+                success : function (response){
+                }
+
+            })
+            // window.location.href ="http://127.0.0.1:8000/order/list";
+            location.reload();
+
+
+        })
+    });
+</script>
 
 @endsection
 {{--  --}}

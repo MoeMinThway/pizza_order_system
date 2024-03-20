@@ -40,7 +40,9 @@
                             <small class="fas fa-star-half-alt"></small>
                             <small class="far fa-star"></small>
                         </div> --}}
-                        <small class="pt-1 h6">{{$pizza->view_count}}  <i class="mx-1 fa-solid fa-eye"></i> </small>
+                        <small class="pt-1 h6">
+                             <i class="mx-1 fa-solid fa-eye"></i> {{$pizza->view_count + 1}} 
+                             </small>
                     </div>
                     <h3 class="font-weight-semi-bold mb-4">{{$pizza->price}} </h3>
                     <p class="mb-4">
@@ -247,6 +249,30 @@
     <script>
 
         $(document).ready(function(){
+
+            //incrase view count
+
+                $.ajax ({
+
+                type: 'get',
+                url :  'http://127.0.0.1:8000/user/ajax/increase/viewCount',
+                data :
+                {
+
+                    'productId' : $('#pizzaId').val(),
+                }
+                ,
+                dataType: 'json',
+                success : function(respnse){
+                    // console.log(respnse.status);
+                    if(respnse.status== 'success'){
+                        window.location.href= "http://127.0.0.1:8000/user/homePage";
+                    }
+                }
+
+            })
+
+            // click add to cart btn
             $('#addCartBtn').click(function(){
                 // alert ($('#orderCount').val());
 

@@ -63,6 +63,10 @@
                             <a class="actiive" href="{{route('admin#orderList')}}">
                                 <i class="fa-solid fa-list-check"></i>Order List</a>
                         </li>
+                        <li>
+                            <a class="actiive" href="{{route('admin#userList')}}">
+                                <i class="fa-solid fa-user"></i>User List</a>
+                        </li>
 
                     </ul>
                 </nav>

@@ -22,9 +22,7 @@
                                 <i class="zmdi zmdi-plus"></i>Add Pizza
                             </button>
                         </a>
-                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                            CSV download
-                        </button>
+                       
                     </div>
                 </div>
 
@@ -88,7 +86,7 @@
                             <img src="{{asset('storage/'.$p->image)}}" class="img-thumbnail shadow-sm" alt="">
                         </td>
                         <td class="3" >{{$p->name}}</td>
- 
+
                         <td class="2" >{{$p->category_id}}</td>
                         <td class="2" >{{$p->price}} $</td>
                         <td class="2" > <i class="fa-solid fa-eye"></i> {{$p->view_count}}</td>

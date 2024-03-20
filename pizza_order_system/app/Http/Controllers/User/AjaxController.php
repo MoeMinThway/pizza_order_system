@@ -88,6 +88,20 @@ class AjaxController extends Controller
 
 
     }
+    // viewCount
+    public function viewCount(Request $request){
+        // logger($request->all());
+
+
+        $pizza = Product::where('id',$request->productId)->first();
+        // logger($pizza);
+        $updateData=[
+            'view_count'=>$pizza->view_count+1
+        ];
+        Product::where('id',$request->productId)->update($updateData);
+
+
+    }
     // getOrderData
     private function getOrderData($request){
         return [

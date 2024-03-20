@@ -13,6 +13,7 @@ use App\Http\Controllers\User\UserController;
 
 
 
+
 //login , register
 
 Route::group(['middleware'=>'admin_auth',"user_auth"],function(){
@@ -57,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('delete/{id}',[AdminController::class,'delete'])->name('admin#delete');
             Route::get('changeRole/{id}',[AdminController::class,'changeRole'])->name('admin#changeRole');
             Route::post('change/role/{id}',[AdminController::class,'change'])->name('admin#change');
+            Route::get('change/role/ajax',[AdminController::class,'changeRoleAjax'])->name('admin#changeRoleAjax');
 
          });
          Route::group(['prefix'=> "products"],function(){
@@ -70,8 +72,13 @@ Route::middleware(['auth'])->group(function () {
          });
          Route::group(['prefix'=> "order"],function(){
             Route::get('list',[OrderController::class,"orderList"])->name('admin#orderList');
-            Route::get('ajax/status',[OrderController::class,"ajaxStatus"])->name('admin#ajaxStatus');
+            Route::get('change/status',[OrderController::class,"changeStatus"])->name('admin#changeStatus');
             Route::get('ajax/change/status',[OrderController::class,"ajaxChangeStatus"])->name('admin#ajaxChangeStatus');
+            Route::get('listInfo/{id}',[OrderController::class,"listInfo"])->name('admin#listInfo');
+         });
+         Route::group(['prefix'=> "user"],function(){
+            Route::get('list',[UserController::class,"userList"])->name('admin#userList');
+            Route::get('change/role',[UserController::class,"changeRoleIn"])->name('admin#changeRoleIn');
 
          });
 
@@ -117,7 +124,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('order',[AjaxController::class,'order'])->name('ajax#order');
             Route::get('clear/cart',[AjaxController::class,'clearCart'])->name('ajax#clearCart');
             Route::get('clear/product',[AjaxController::class,'clearProduct'])->name('ajax#clearProduct');
+            Route::get('increase/viewCount',[AjaxController::class,'viewCount'])->name('ajax#viewCount');
 
+        });
+        Route::prefix('contact')->group(function(){
+            Route::get('contact',[UserController::class,'contact'])->name('user#contact');
         });
     });
 

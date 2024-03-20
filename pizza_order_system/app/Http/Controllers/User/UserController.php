@@ -141,6 +141,26 @@ class UserController extends Controller
             // dd($order->toArray());
             return view('user.main.history',compact("order"));
         }
+// ===============================================
+        // userList in Admin
+        public function userList(){
+            $users = User::where('role','user')->paginate(3);
+            // dd($users->toArray()); //all user
+            return view('admin.user.list',compact('users'));
+        }
+        public function changeRoleIn(Request $request){
+            // logger($request->all());
+            User::where('id',$request->userId)->update(
+           [
+             'role'=>$request->role
+           ]
+            );
+
+        }
+        // contact
+        // public function 
+
+
       //password Validation Check
       private function passwordValidationCheck($request){
         Validator::make($request->all(),[

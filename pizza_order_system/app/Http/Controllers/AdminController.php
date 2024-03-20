@@ -90,21 +90,28 @@ class AdminController extends Controller
     }
 
 
-    //admin list
+
+
+
+
+//     //admin list
     public function list(){
 //21 error male female
 
-        $admins =User::when(request('key'),function($query){
-            $query->orWhere('gender','like','%'.request('key').'%')
-                  ->orWhere('name','like','%'.request('key').'%')
-                  ->orWhere('email','like','%'.request('key').'%')
-                  ->orWhere('phone','like','%'.request('key').'%')
-                  ->orWhere('address','like','%'.request('key').'%');
-        })
-        ->where('role','admin')
+    $admins = User::when(request('key'), function($query){
+    $query
+        ->orWhere('name','like','%'.request('key').'%')
+        ->orWhere('gender','like','%'.request('key').'%')
+        ->orWhere('email','like','%'.request('key').'%')
+        ->orWhere('phone','like','%'.request('key').'%')
+        ->orWhere('address','like','%'.request('key').'%');
+})
+->where('role','admin')
+->whereNotIn('role', ['user'])
 ->paginate(3);
 
-        $admins->appends(request()->all());
+
+        // $admins->appends(request()->all());
 
         // dd($admins->toArray());
             return view('admin.account.list',compact('admins'));
@@ -128,6 +135,15 @@ class AdminController extends Controller
         User::where('id',$id)->update($data);
         return redirect()->route('admin#list');
 
+    }
+    // changeRoleAjax
+    public function changeRoleAjax(Request $request){
+        logger($request->all());
+             User::where('id',$request->userId)->update(
+           [
+             'role'=>$request->role
+           ]
+            );
     }
     private function requestUserData($request){
         return [
