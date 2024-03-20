@@ -151,7 +151,7 @@
 
         //     $.ajax({
         //         type: "get",
-        //         url: "http://127.0.0.1:8000/order/ajax/status",
+        //         url: "/order/ajax/status",
         //         data : {"status": $status},
         //         dataType: 'json',
         //         success : function (response){
@@ -240,7 +240,7 @@
 
             $.ajax({
                 type: "get",
-                url: "http://127.0.0.1:8000/order/ajax/change/status",
+                url: "/order/ajax/change/status",
                 data : {
                     "status": $currentStatus,
                     "orderId": $orderId,
@@ -250,7 +250,7 @@
                 }
 
             })
-            // window.location.href ="http://127.0.0.1:8000/order/list";
+            // window.location.href ="/order/list";
 
 
         })

@@ -41,7 +41,7 @@
                             <small class="far fa-star"></small>
                         </div> --}}
                         <small class="pt-1 h6">
-                             <i class="mx-1 fa-solid fa-eye"></i> {{$pizza->view_count + 1}} 
+                             <i class="mx-1 fa-solid fa-eye"></i> {{$pizza->view_count + 1}}
                              </small>
                     </div>
                     <h3 class="font-weight-semi-bold mb-4">{{$pizza->price}} </h3>
@@ -255,7 +255,7 @@
                 $.ajax ({
 
                 type: 'get',
-                url :  'http://127.0.0.1:8000/user/ajax/increase/viewCount',
+                url :  '/user/ajax/increase/viewCount',
                 data :
                 {
 
@@ -266,7 +266,7 @@
                 success : function(respnse){
                     // console.log(respnse.status);
                     if(respnse.status== 'success'){
-                        window.location.href= "http://127.0.0.1:8000/user/homePage";
+                        window.location.href= "/user/homePage";
                     }
                 }
 
@@ -287,13 +287,13 @@
                 $.ajax ({
 
                 type: 'get',
-                url :  'http://127.0.0.1:8000/user/ajax/addToCart',
+                url :  '/user/ajax/addToCart',
                 data :  $source,
                 dataType: 'json',
                 success : function(respnse){
                     // console.log(respnse.status);
                     if(respnse.status== 'success'){
-                        window.location.href= "http://127.0.0.1:8000/user/homePage";
+                        window.location.href= "/user/homePage";
                     }
                 }
 

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -158,8 +159,73 @@ class UserController extends Controller
 
         }
         // contact
-        // public function 
+        public function contact(){
+            return view('user.main.contact');
+        }
+        public function sendData(Request $request){
+            // dd($request->toArray());
+            Contact::create([
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'message'=>$request->message,
+            ]);
 
+                 $pizzas = Product::orderBy('created_at','desc')->get();
+        $category = Category::get();
+        $cart = Cart::where('user_id',Auth::user()->id)-> get();
+        $history = Order::where('user_id',Auth::user()->id)->get();
+        return view('user.main.home',compact('pizzas','category','cart','history'));
+        }
+        // userDelete
+        public function userDelete($userId ){
+            // dd($userId);
+            User::where('id',$userId)->delete();
+            $users = User::where('role','user')->paginate(3);
+
+            return view('admin.user.list',compact('users'));
+        }
+        // userEdit
+    public function userEdit($id){
+        $user = User::where('id',$id)->first();
+        // dd($user->toArray());
+        return view('admin.user.userEdit',compact('user'));
+    }
+    // userUpdate
+    public function userUpdate(Request $request,$id){
+        // dd($id);
+        // dd($request->toArray());
+        $data =[
+
+            "name" => $request->name,
+            "phone" => $request->phone,
+            "email" => $request->email,
+            "gender" => $request->gender,
+            "address" => $request->address,
+        ];
+           if($request->hasFile('image')){
+            //1 old image name | 2. check =>if exist ,  delete | 3. store
+            $dbUser= User::where('id',$id)->first();
+            $dbImage= $dbUser->image;
+
+            //to keep the name for store(get the file name)
+            $fileName= uniqid().$request->file('image')->getClientOriginalName();
+            // actually store in frontend
+            $request->file('image')->storeAs('public',$fileName);
+            //db store
+            $data['image'] = $fileName;
+
+            if($dbImage != null){
+                Storage::delete('public/'.$dbImage);
+            }
+
+
+
+        }
+            $userUpdate = User::where('id',$id)->update($data);
+
+             $users = User::where('role','user')->paginate(3);
+            return view('admin.user.list',compact('users'));
+    }
 
       //password Validation Check
       private function passwordValidationCheck($request){

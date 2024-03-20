@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title','Product | List')
+@section('title','User | List')
 @section('content')
 
  <!-- MAIN CONTENT-->
@@ -38,6 +38,7 @@
                         <th>phone</th>
                         <th>Address</th>
                         <th>Role</th>
+                        <th></th>
 
 
 
@@ -49,19 +50,19 @@
                     @foreach ($users as $u)
                     <tr class="mb-3">
                         <input type="hidden" class="userId" id="userId" value="{{$u->id}}">
-                        <td>
+                        <td class="col-2">
                         @if ($u->image==null)
 
                                         @if($u->gender =='male')
-                                        <img     src="{{asset('image/default-user.jpeg')}}" width="150px" alt="John Doe"
+                                        <img     src="{{asset('image/default-user.jpeg')}}" width="200px" alt="John Doe"
                                         class="img-thumbnail shadow-sm" />
                                         @else
-                                        <img     src="{{asset('image/default-user-girl.jpeg')}}" width="150px" alt="John Doe"
+                                        <img     src="{{asset('image/default-user-girl.jpeg')}}" width="200px" alt="John Doe"
                                         class="img-thumbnail shadow-sm" />
                                         @endif
                                     @else
 
-                                    <img src="{{asset('storage/'.$u->image)}}" class="img-thumbnail shadow-sm" width="150px" alt=" " />
+                                    <img src="{{asset('storage/'.$u->image)}}" class="img-thumbnail shadow-sm" width="200px" alt=" " />
 
                                     @endif
                         </td>
@@ -70,7 +71,7 @@
                         <td> {{$u->gender}} </td>
                         <td> {{$u->phone}} </td>
                         <td> {{$u->address}} </td>
-                        <td>
+                        <td class="col-2">
                             {{-- {{$u->role}} --}}
 
                             <select name="" id="" class="form-control statusChange">
@@ -79,6 +80,24 @@
                             </select>
 
                         </td>
+                          <td >
+                                <div class="table-data-feature">
+
+
+
+                                <a href="{{route('admin#userEdit',$u->id)}}" style="font-size: 10px; " class="h-6">
+                             <button class="item mr-1" data-toggle="tooltip" data-placement="top" title="Edit">
+                                <i class="fa-solid fa-person-circle-minus"></i>
+                            </button>
+                                      </a>
+                             <a href="{{route('admin#userDelete',$u->id)}}" style="font-size: 10px; " class="h-6">
+                                <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                             </a>
+
+                                </div>
+                            </td>
                     </tr>
 
                     @endforeach
@@ -123,7 +142,7 @@
             console.log($userId);
             $.ajax({
                 type: "get",
-                url: "http://127.0.0.1:8000/user/change/role",
+                url: "/user/change/role",
                 data : {
                     "role": $currentStatus,
                     "userId": $userId,
@@ -134,7 +153,7 @@
                 }
 
             })
-            // window.location.href ="http://127.0.0.1:8000/order/list";
+            // window.location.href ="/order/list";
             location.reload();
 
 

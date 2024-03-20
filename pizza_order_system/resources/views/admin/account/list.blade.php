@@ -176,7 +176,7 @@
             console.log($userId);
             $.ajax({
                 type: "get",
-                url: "http://127.0.0.1:8000/admin/change/role/ajax",
+                url: "/admin/change/role/ajax",
                 data : {
                     "role": $currentStatus,
                     "userId": $userId,
@@ -187,7 +187,7 @@
                 }
 
             })
-            // window.location.href ="http://127.0.0.1:8000/order/list";
+            // window.location.href ="/order/list";
             location.reload();
 
 

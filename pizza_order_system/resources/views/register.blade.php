@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-<div class="login-form">
+<div class="login-form" >
     <form action="{{route('register')}}" method="post">
         @csrf
         @error('terms')
@@ -78,5 +78,7 @@
         </p>
     </div>
 </div>
+
+
 @endsection
 {{--  --}}

@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'address'=>'Yangon',
             'role'=>'admin',
             'gender'=>'female',
-            'password'=>Hash::make('admin12345'),
+            'password'=>Hash::make('admin123'),
         ]);
         User::create([
             'name'=>'moeminthway',

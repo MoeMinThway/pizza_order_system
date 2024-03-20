@@ -67,6 +67,10 @@
                             <a class="actiive" href="{{route('admin#userList')}}">
                                 <i class="fa-solid fa-user"></i>User List</a>
                         </li>
+                        <li>
+                            <a class="actiive" href="{{route('admin#contactList')}}">
+                               <i class="fa-solid fa-message"></i>Contact List</a>
+                        </li>
 
                     </ul>
                 </nav>

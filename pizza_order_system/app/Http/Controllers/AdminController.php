@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -144,6 +145,12 @@ class AdminController extends Controller
              'role'=>$request->role
            ]
             );
+    }
+    // contactList
+    public function contactList(){
+        $contacts  = Contact::get();
+        // dd($contacts->toArray());
+        return view('admin.user.contactList',compact('contacts'));
     }
     private function requestUserData($request){
         return [

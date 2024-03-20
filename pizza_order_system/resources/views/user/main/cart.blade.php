@@ -120,13 +120,13 @@
             // console.log($orderList);
              $.ajax ({
                 type: 'get',
-                url :  'http://127.0.0.1:8000/user/ajax/order',
+                url :  '/user/ajax/order',
                 data: Object.assign({},$orderList),
                 dataType: 'json',
                 success : function(respnse){
                         // console.log(respnse);
                         if(respnse.status == 'true'){
-                                 window.location.href= "http://127.0.0.1:8000/user/homePage";
+                                 window.location.href= "/user/homePage";
 
                         }
                 }
@@ -178,7 +178,7 @@
                  $.ajax ({
                 type: 'get',
 
-                url :  'http://127.0.0.1:8000/user/ajax/clear/product',
+                url :  '/user/ajax/clear/product',
                 data: {'product_id' : $productId,
                          'order_id': $orderId
                     } ,
@@ -209,7 +209,7 @@
                    calculationSumary();
                       $.ajax ({
                 type: 'get',
-                url :  'http://127.0.0.1:8000/user/ajax/clear/cart',
+                url :  '/user/ajax/clear/cart',
                 success : function(respnse){
 
                 }

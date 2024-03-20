@@ -32,13 +32,15 @@
 
     <!-- Main CSS-->
     <link href="{{asset('admin/css/theme.css')}}" rel="stylesheet" media="all">
+    <style>
 
+    </style>
 </head>
 
 <body class="animsition">
     <div class="page-wrapper">
-        <div class="page-content--bge5">
-            <div class="container">
+        <div class="page-content--bge5" >
+            <div class="container"  >
                 <div class="login-wrap">
                     <div class="login-content">
                         <div class="login-logo">
@@ -48,6 +50,7 @@
                         </div>
 
                         @yield('content')
+
                     </div>
                 </div>
             </div>

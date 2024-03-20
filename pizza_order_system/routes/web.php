@@ -79,6 +79,13 @@ Route::middleware(['auth'])->group(function () {
          Route::group(['prefix'=> "user"],function(){
             Route::get('list',[UserController::class,"userList"])->name('admin#userList');
             Route::get('change/role',[UserController::class,"changeRoleIn"])->name('admin#changeRoleIn');
+            Route::get('delete/{id}',[UserController::class,"userDelete"])->name('admin#userDelete');
+            Route::get('edit/{id}',[UserController::class,"userEdit"])->name('admin#userEdit');
+            Route::post('update/{id}',[UserController::class,"userUpdate"])->name('admin#userUpdate');
+
+         });
+        Route::group(['prefix'=> "contact"],function(){
+            Route::get('list',[AdminController::class,"contactList"])->name('admin#contactList');
 
          });
 
@@ -129,6 +136,7 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::prefix('contact')->group(function(){
             Route::get('contact',[UserController::class,'contact'])->name('user#contact');
+            Route::get('contact/send/data',[UserController::class,'sendData'])->name('user#sendData');
         });
     });
 

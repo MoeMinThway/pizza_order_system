@@ -163,7 +163,7 @@
         $(document).ready(function(){
             // $.ajax ({
             //     type: 'get',
-            //     url :  'http://127.0.0.1:8000/user/ajax/pizza/list',
+            //     url :  '/user/ajax/pizza/list',
             //     dataType: 'json',
             //     success : function(respnse){
             //             console.log(respnse);
@@ -176,7 +176,7 @@
                 if($eventOption =='desc'){
                       $.ajax ({
                 type: 'get',
-                url :  'http://127.0.0.1:8000/user/ajax/pizza/list',
+                url :  '/user/ajax/pizza/list',
                 data : { 'status' : 'desc'},
                 dataType: 'json',
                 success : function(respnse){
@@ -232,7 +232,7 @@
 
                     $.ajax ({
                 type: 'get',
-                url :  'http://127.0.0.1:8000/user/ajax/pizza/list',
+                url :  '/user/ajax/pizza/list',
                 data : { 'status' : 'asc'},
                 dataType: 'json',
                 success : function(respnse){
