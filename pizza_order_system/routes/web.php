@@ -146,6 +146,12 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+Route::get('webTesting',function(){
+    $data = [
+        "message"=>"this is web testing"
+    ];
+    return  response()->json($data, 200);
+});
 
 
 
